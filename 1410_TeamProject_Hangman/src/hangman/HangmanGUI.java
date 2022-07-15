@@ -48,14 +48,25 @@ public class HangmanGUI extends JFrame {
 		JPanel panelMenu = new JPanel();
 		contentPane.add(panelMenu, BorderLayout.WEST);
 		
-		JPanel panelKeyboard = new JPanel();
-		contentPane.add(panelKeyboard, BorderLayout.SOUTH);
+		JPanel panelGame = new JPanel();
+		contentPane.add(panelGame, BorderLayout.CENTER);
+		panelGame.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panelGuesses = new JPanel();
-		contentPane.add(panelGuesses, BorderLayout.EAST);
+		JPanel panelKeyboard = new JPanel();
+		panelGame.add(panelKeyboard, BorderLayout.SOUTH);
+		
+		JPanel panelGameStatus = new JPanel();
+		panelGame.add(panelGameStatus, BorderLayout.CENTER);
+		panelGameStatus.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelImage = new JPanel();
-		contentPane.add(panelImage, BorderLayout.CENTER);
+		panelGameStatus.add(panelImage, BorderLayout.CENTER);
+		
+		JPanel panelWord = new JPanel();
+		panelGameStatus.add(panelWord, BorderLayout.SOUTH);
+		
+		JPanel panelGuesses = new JPanel();
+		panelGameStatus.add(panelGuesses, BorderLayout.EAST);
 	}
 
 }
