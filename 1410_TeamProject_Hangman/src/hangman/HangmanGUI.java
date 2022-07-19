@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.SystemColor;
+import java.awt.Font;
 
 public class HangmanGUI extends JFrame {
 
@@ -59,19 +61,8 @@ public class HangmanGUI extends JFrame {
 		Keyboard keyboard = new Keyboard();
 		panelGame.add(keyboard, BorderLayout.SOUTH);
 		
-		JPanel panelGameStatus = new JPanel();
-		panelGameStatus.setBackground(Color.WHITE);
-		panelGame.add(panelGameStatus, BorderLayout.CENTER);
-		panelGameStatus.setLayout(new BorderLayout(5, 5));
-		
-		JPanel panelImage = new JPanel();
-		panelGameStatus.add(panelImage, BorderLayout.CENTER);
-		
-		JPanel panelWord = new JPanel();
-		panelGameStatus.add(panelWord, BorderLayout.SOUTH);
-		
-		JPanel panelGuesses = new JPanel();
-		panelGameStatus.add(panelGuesses, BorderLayout.EAST);
+		GameStatus gameStatus = new GameStatus();
+		panelGame.add(gameStatus, BorderLayout.CENTER);
 	}
 
 }
