@@ -8,10 +8,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import javax.swing.JSplitPane;
+import java.awt.Color;
+import java.awt.SystemColor;
+import java.awt.Font;
 
 public class HangmanGUI extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	/**
@@ -34,11 +37,13 @@ public class HangmanGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public HangmanGUI() {
+		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 600, 450);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setLayout(new BorderLayout(5, 5));
 		setContentPane(contentPane);
 		
 		JLabel lblTitle = new JLabel("Hangman");
@@ -49,24 +54,15 @@ public class HangmanGUI extends JFrame {
 		contentPane.add(panelMenu, BorderLayout.WEST);
 		
 		JPanel panelGame = new JPanel();
+		panelGame.setBackground(Color.WHITE);
 		contentPane.add(panelGame, BorderLayout.CENTER);
-		panelGame.setLayout(new BorderLayout(0, 0));
+		panelGame.setLayout(new BorderLayout(5, 5));
 		
-		JPanel panelKeyboard = new JPanel();
-		panelGame.add(panelKeyboard, BorderLayout.SOUTH);
+		Keyboard keyboard = new Keyboard();
+		panelGame.add(keyboard, BorderLayout.SOUTH);
 		
-		JPanel panelGameStatus = new JPanel();
-		panelGame.add(panelGameStatus, BorderLayout.CENTER);
-		panelGameStatus.setLayout(new BorderLayout(0, 0));
-		
-		JPanel panelImage = new JPanel();
-		panelGameStatus.add(panelImage, BorderLayout.CENTER);
-		
-		JPanel panelWord = new JPanel();
-		panelGameStatus.add(panelWord, BorderLayout.SOUTH);
-		
-		JPanel panelGuesses = new JPanel();
-		panelGameStatus.add(panelGuesses, BorderLayout.EAST);
+		GameStatus gameStatus = new GameStatus();
+		panelGame.add(gameStatus, BorderLayout.CENTER);
 	}
 
 }
