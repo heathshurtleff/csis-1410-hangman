@@ -7,15 +7,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.SystemColor;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.text.SimpleAttributeSet;
@@ -23,6 +20,9 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 /**
+ * Creates a new Game Status panel that displays the current hangman image, wrong guesses, and
+ * progress of solving the word.
+ * 
  * @author hshurtleff
  *
  */
@@ -38,6 +38,9 @@ public class GameStatus extends JPanel {
 	private int maxWrongGuesses = 2;
 	private Keyboard keyboard;
 
+	/**
+	 * Class constructor for the initial setup of the GUI and it's subpanels.
+	 */
 	public GameStatus() {
 		setBackground(Color.WHITE);
 		setLayout(new BorderLayout(5, 5));
@@ -54,7 +57,9 @@ public class GameStatus extends JPanel {
 	}
 
 	/**
-	 * @return
+	 * Creates a new panel that displays the current image based on the users wrong guesses.
+	 * 
+	 * @return a new panel for displaying the game status image.
 	 */
 	private JPanel newImagePanel() {
 		JPanel panelImage = new JPanel();
@@ -73,7 +78,10 @@ public class GameStatus extends JPanel {
 	}
 
 	/**
-	 * @return
+	 * Creates a new panel that displays the current progress on guessing the word. Initially all _,
+	 * they get replaced by correct letters when guessed.
+	 * 
+	 * @return a panel that shows the current word progress
 	 */
 	private JPanel newWordPanel() {
 		JPanel panelWord = new JPanel();
@@ -91,7 +99,10 @@ public class GameStatus extends JPanel {
 	}
 
 	/**
+	 * Creates a new panel that shows the user's wrong guesses, it gets updated as wrong guesses
+	 * are made.
 	 * 
+	 * @return a new panel showing wrong guesses
 	 */
 	private JPanel newGuessesPanel() {
 		JPanel panelGuesses = new JPanel();
@@ -123,6 +134,12 @@ public class GameStatus extends JPanel {
 		return panelGuesses;
 	}
 	
+	/**
+	 * Compares the provided guess to the active word. If it's a bad guess, the image and wrong guesses
+	 * get updated. If it's a correct guess the word progress is updated.
+	 * 
+	 * @param guess the guessed character
+	 */
 	public void handleGuess(Character guess) {
 		boolean wrongGuess = activeWord.indexOf(guess) == -1;
 		if (wrongGuess) {
@@ -145,6 +162,9 @@ public class GameStatus extends JPanel {
 		}
 	}
 	
+	/**
+	 * Updates the image based on the total number of wrong guesses allowed.
+	 */
 	private void updateImageDisplay() {
 		int imageIncrement = 6 / maxWrongGuesses;
 		int imageToShow = wrongGuesses.size() * imageIncrement;
@@ -152,6 +172,9 @@ public class GameStatus extends JPanel {
 		lblImage.setIcon(images.get(imageToShow));
 	}
 	
+	/**
+	 * Updates the wrong guesses area when a wrong guess is made.
+	 */
 	private void updateWrongGuessesDisplay() {
 		StringBuilder wrongCharacters = new StringBuilder();
 		for (char guess : wrongGuesses) {
@@ -165,6 +188,9 @@ public class GameStatus extends JPanel {
 		taWrong.setText(wrongCharacters.toString());
 	}
 	
+	/**
+	 * Updates the word progress when a correct guess is made.
+	 */
 	private void updateWordDisplay() {
 		StringBuilder wordCharacters = new StringBuilder();
 		for (char letter : wordDisplay) {
@@ -183,10 +209,22 @@ public class GameStatus extends JPanel {
 		}
 	}
 	
+	/**
+	 * Setter to link the keyboard panel to this panel.
+	 * 
+	 * @param keyboard the active game keyboard
+	 */
 	public void setKeyboard(Keyboard keyboard) {
 		this.keyboard = keyboard;
 	}
 	
+	/**
+	 * Starts a new game with the word provided. Difficulty level will restrict the number of wrong guesses
+	 * allowed before the game is lost.
+	 * 
+	 * @param word the word trying to be guessed
+	 * @param level the difficulty level
+	 */
 	public void startNewGame(String word, Difficulty level) {
 		this.activeWord = word;
 		this.wrongGuesses = new ArrayList<Character>();

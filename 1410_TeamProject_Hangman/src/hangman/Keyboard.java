@@ -19,6 +19,12 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
+/**
+ * Creates a new panel that hold the in-game keyboard for this game.
+ * 
+ * @author hshurtleff
+ *
+ */
 public class Keyboard extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private GameStatus game;
@@ -26,6 +32,11 @@ public class Keyboard extends JPanel {
 	private List<JButton> keyboardButtons = new ArrayList<JButton>();
 	private boolean mouseListenersActive = false;
 
+	/**
+	 * Class constructor that sets up all the buttons and adds actions to them.
+	 * 
+	 * @param game that game status object for the current game.
+	 */
 	public Keyboard(GameStatus game) {
 		this.game = game;
 		Dimension keyboardSize = new Dimension(410, 125);
@@ -44,6 +55,12 @@ public class Keyboard extends JPanel {
 		}
 	}
 	
+	/**
+	 * Creates and returns a new button for each letter on the keyboard.
+	 * 
+	 * @param letter the letter for the button
+	 * @return a button with a letter and actions
+	 */
 	private JButton createLetterButton(char letter) {
 		JButton keyboardButton = new JButton(Character.toString(letter));
 		Color btnDefaultText = new Color(17,17,17);
@@ -90,6 +107,9 @@ public class Keyboard extends JPanel {
 		return keyboardButton;
 	}
 	
+	/**
+	 * Sets the keyboard buttons to their active state.
+	 */
 	private void activate() {
 		this.mouseListenersActive = true;
 		Component[] components = this.getComponents();
@@ -107,6 +127,9 @@ public class Keyboard extends JPanel {
 		}
 	}
 	
+	/**
+	 * Sets the keyboard buttons to their inactive state.
+	 */
 	private void deactivate() {
 		this.mouseListenersActive = true;
 		Component[] components = this.getComponents();
@@ -124,6 +147,11 @@ public class Keyboard extends JPanel {
 		}
 	}
 	
+	/**
+	 * Either activates or deactives the keyboard based on the provided boolean value.
+	 * 
+	 * @param active true to set the keyboard to active, false to set it to inactive
+	 */
 	public void setKeyboardState(boolean active) {
 		if (active) {
 			activate();
