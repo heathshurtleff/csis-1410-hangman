@@ -66,7 +66,7 @@ public class GameStatus extends JPanel {
 			images.add(icon);
 		}
 		
-		lblImage.setIcon(images.get(wrongGuesses.size()));
+		lblImage.setIcon(images.get(0));
 		
 		panelImage.add(lblImage);
 		return panelImage;
@@ -193,6 +193,7 @@ public class GameStatus extends JPanel {
 		updateWrongGuessesDisplay();
 		wordDisplay = new ArrayList<Character>(activeWord.length());
 		updateWordDisplay();
+		lblImage.setIcon(images.get(0));
 		
 		for (int i = 0; i < activeWord.length(); i++) {
 			wordDisplay.add('_');
@@ -205,7 +206,6 @@ public class GameStatus extends JPanel {
 			maxWrongGuesses = 2;
 		}
 		
-		updateWordDisplay();
 		keyboard.setKeyboardState(true);
 	}
 }
