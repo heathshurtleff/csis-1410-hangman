@@ -58,11 +58,14 @@ public class HangmanGUI extends JFrame {
 		contentPane.add(panelGame, BorderLayout.CENTER);
 		panelGame.setLayout(new BorderLayout(5, 5));
 		
-		Keyboard keyboard = new Keyboard();
-		panelGame.add(keyboard, BorderLayout.SOUTH);
-		
 		GameStatus gameStatus = new GameStatus();
 		panelGame.add(gameStatus, BorderLayout.CENTER);
+		
+		Keyboard keyboard = new Keyboard(gameStatus);
+		panelGame.add(keyboard, BorderLayout.SOUTH);
+		keyboard.setKeyboardState(true);
+		
+		gameStatus.setKeyboard(keyboard);
 	}
 
 }
