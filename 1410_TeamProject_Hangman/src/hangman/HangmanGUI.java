@@ -39,7 +39,7 @@ public class HangmanGUI extends JFrame {
 	public HangmanGUI() {
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 450);
+		setBounds(100, 100, 600, 550);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -50,8 +50,8 @@ public class HangmanGUI extends JFrame {
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblTitle, BorderLayout.NORTH);
 		
-		JPanel panelMenu = new JPanel();
-		contentPane.add(panelMenu, BorderLayout.WEST);
+		JPanel panelMenuWest = newPanelMenuWest();
+		contentPane.add(panelMenuWest, BorderLayout.WEST);
 		
 		JPanel panelGame = new JPanel();
 		panelGame.setBackground(Color.WHITE);
@@ -63,9 +63,22 @@ public class HangmanGUI extends JFrame {
 		
 		Keyboard keyboard = new Keyboard(gameStatus);
 		panelGame.add(keyboard, BorderLayout.SOUTH);
-		keyboard.setKeyboardState(true);
 		
 		gameStatus.setKeyboard(keyboard);
+		
+		keyboard.setKeyboardState(true);
+	}
+
+	/**
+	 * 
+	 */
+	private JPanel newPanelMenuWest() {
+		JPanel panelMenuWest = new JPanel();
+		HangmanGUIMenu menu = new HangmanGUIMenu();
+		JPanel testMenuPanel = menu.myTestPanelMethod(this);
+        panelMenuWest.add(testMenuPanel);
+		
+		return panelMenuWest;
 	}
 
 }

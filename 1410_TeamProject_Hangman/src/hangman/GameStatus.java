@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -27,12 +28,14 @@ import javax.swing.text.StyledDocument;
  */
 public class GameStatus extends JPanel {
 	private boolean gameActive = false;
+	private List<ImageIcon> images = new ArrayList<ImageIcon>();
 	private String activeWord = "";
 	private List<Character> wordDisplay;
 	private List<Character> wrongGuesses = new ArrayList<Character>();
 	private JTextPane taWrong = new JTextPane();
 	private JLabel lblWordDisplay = new JLabel("");
-	private int maxWrongGuesses = 6;
+	private JLabel lblImage = new JLabel();
+	private int maxWrongGuesses = 2;
 	private Keyboard keyboard;
 
 	public GameStatus() {
@@ -40,7 +43,7 @@ public class GameStatus extends JPanel {
 		setLayout(new BorderLayout(5, 5));
 		setPreferredSize(new Dimension(400,310));
 		
-		JPanel panelImage = new JPanel();
+		JPanel panelImage = newImagePanel();
 		this.add(panelImage, BorderLayout.CENTER);
 		
 		JPanel panelWord = newWordPanel();
@@ -48,6 +51,25 @@ public class GameStatus extends JPanel {
 		
 		JPanel panelGuesses = newGuessesPanel();
 		this.add(panelGuesses, BorderLayout.EAST);
+	}
+
+	/**
+	 * @return
+	 */
+	private JPanel newImagePanel() {
+		JPanel panelImage = new JPanel();
+		String imagePath = "src/hangman/HangmanPics/";
+		String[] imageNames = {"StandOnly.jpg", "HeadOnly.jpg", "HeadBody.jpg", "HeadBodyLeftArm.jpg", "HeadBodyBothArms.jpg",
+				"LeftLeg.jpg", "WholeBody.jpg"};
+		for(String image : imageNames) {
+			ImageIcon icon = new ImageIcon(imagePath + image);
+			images.add(icon);
+		}
+		
+		lblImage.setIcon(images.get(wrongGuesses.size()));
+		
+		panelImage.add(lblImage);
+		return panelImage;
 	}
 
 	/**
@@ -106,6 +128,7 @@ public class GameStatus extends JPanel {
 		if (wrongGuess) {
 			wrongGuesses.add(guess);
 			updateWrongGuessesDisplay();
+			updateImageDisplay();
 			
 			if (wrongGuesses.size() == maxWrongGuesses) {
 				keyboard.setKeyboardState(false);
@@ -120,6 +143,13 @@ public class GameStatus extends JPanel {
 			
 			updateWordDisplay();
 		}
+	}
+	
+	private void updateImageDisplay() {
+		int imageIncrement = 6 / maxWrongGuesses;
+		int imageToShow = wrongGuesses.size() * imageIncrement;
+
+		lblImage.setIcon(images.get(imageToShow));
 	}
 	
 	private void updateWrongGuessesDisplay() {
@@ -170,9 +200,9 @@ public class GameStatus extends JPanel {
 		if (level == Difficulty.EASY) {
 			maxWrongGuesses = 6;
 		} else if (level == Difficulty.MEDIUM) {
-			maxWrongGuesses = 4;
-		} else if (level == Difficulty.HARD) {
 			maxWrongGuesses = 3;
+		} else if (level == Difficulty.HARD) {
+			maxWrongGuesses = 2;
 		}
 		
 		updateWordDisplay();
