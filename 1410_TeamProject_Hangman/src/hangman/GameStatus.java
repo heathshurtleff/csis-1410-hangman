@@ -7,6 +7,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +30,6 @@ import javax.swing.text.StyledDocument;
  *
  */
 public class GameStatus extends JPanel {
-	private boolean gameActive = false;
 	private List<ImageIcon> images = new ArrayList<ImageIcon>();
 	private String activeWord = "";
 	private List<Character> wordDisplay;
@@ -37,6 +39,8 @@ public class GameStatus extends JPanel {
 	private JLabel lblImage = new JLabel();
 	private int maxWrongGuesses = 2;
 	private Keyboard keyboard;
+	private HangmanGUIMenu menu;
+	private Difficulty difficulty;
 
 	/**
 	 * Class constructor for the initial setup of the GUI and it's subpanels.
@@ -203,8 +207,15 @@ public class GameStatus extends JPanel {
 		String noSpaces = wordCharacters.toString().replaceAll(" ", "");
 		
 		if (noSpaces.equals(activeWord)) {
-			//TODO handle actual win display
-			System.out.println("You Win!");
+			int[] scores = menu.getScores();
+			if (difficulty == Difficulty.EASY) {
+				scores[0] = scores[0] + 1;
+			} else if (difficulty == Difficulty.MEDIUM) {
+				scores[1] = scores[1] + 1;
+			} else if (difficulty == Difficulty.HARD) {
+				scores[2] = scores[2] + 1;
+			}
+			menu.setScores(scores);
 			keyboard.setKeyboardState(false);
 		}
 	}
@@ -219,6 +230,15 @@ public class GameStatus extends JPanel {
 	}
 	
 	/**
+	 * Setter to link the menu panel to this panel.
+	 * 
+	 * @param menu the active game menu
+	 */
+	public void setMenu(HangmanGUIMenu menu) {
+		this.menu = menu;
+	}
+	
+	/**
 	 * Starts a new game with the word provided. Difficulty level will restrict the number of wrong guesses
 	 * allowed before the game is lost.
 	 * 
@@ -227,15 +247,19 @@ public class GameStatus extends JPanel {
 	 */
 	public void startNewGame(String word, Difficulty level) {
 		this.activeWord = word;
+		this.difficulty = level;
+		
 		this.wrongGuesses = new ArrayList<Character>();
 		updateWrongGuessesDisplay();
-		wordDisplay = new ArrayList<Character>(activeWord.length());
-		updateWordDisplay();
-		lblImage.setIcon(images.get(0));
 		
+		wordDisplay = new ArrayList<Character>(activeWord.length());
 		for (int i = 0; i < activeWord.length(); i++) {
 			wordDisplay.add('_');
 		}
+		updateWordDisplay();
+		
+		lblImage.setIcon(images.get(0));
+		
 		if (level == Difficulty.EASY) {
 			maxWrongGuesses = 6;
 		} else if (level == Difficulty.MEDIUM) {
